@@ -101,7 +101,7 @@
             Console.Clear(); Console.ForegroundColor = ConsoleColor.Gray;
             scores = File.ReadAllLines("scores.dat");
             int score = int.Parse(scores[0].Split(';')[1]);
-            if (length > score)
+            if (length - 1 > score)
             {
                 if (scores[0].Split(';')[0] == "REMOVE") File.WriteAllText("scores.dat", null);
                 Console.WriteLine("New High Score!");

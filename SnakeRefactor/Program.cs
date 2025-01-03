@@ -1,7 +1,7 @@
 ﻿class Program
 {
     static int x = 1, y = 1;
-    static int length = 1;
+    static int length = 0;
     static int[] foodPos = new int[2] { 5, 5 };
     static readonly Random rng = new();
     static int direction = 1;
@@ -24,7 +24,6 @@
         Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.Write("*");
     }
-
 
 /*
       Input Map
@@ -92,18 +91,22 @@
         Console.Title = "Crap Snake"; Console.CursorVisible = false; Console.ForegroundColor = ConsoleColor.Gray; Console.WindowHeight = 12; Console.WindowWidth = 35; // Visual Shit
 
         #region New High Score Check
-        string[] scores;
-        if (!File.Exists("scores.dat"))
-            File.WriteAllText("scores.dat", "REMOVE;0");
-
         if (length > 0) 
         {
+            bool firstScore = false;
             Console.Clear(); Console.ForegroundColor = ConsoleColor.Gray;
-            scores = File.ReadAllLines("scores.dat");
-            int score = int.Parse(scores[0].Split(';')[1]);
-            if (length - 1 > score)
+            if (!File.Exists("scores.dat"))
             {
-                if (scores[0].Split(';')[0] == "REMOVE") File.WriteAllText("scores.dat", null);
+                File.WriteAllText("scores.dat", "");
+                firstScore = true;
+            }
+            string[] scores = File.ReadAllLines("scores.dat");
+            int score;
+            // Check to see if the scores file was already there.
+            if (firstScore) score = 0;
+            else score = int.Parse(scores[0].Split(';')[1]);
+            if (length > score)
+            {
                 Console.WriteLine("New High Score!");
                 Console.Write("Please write your name: ");
                 string name = Console.ReadLine();
@@ -128,17 +131,16 @@
             if (key == ConsoleKey.D2)
             {
                 Console.Clear();
-                scores = File.ReadAllLines("scores.dat");
-                foreach (string scoreLine in scores)
+                if (!File.Exists("scores.dat")) Console.WriteLine("No High Scores.");
+                else
                 {
-                    string name = scoreLine.Split(";")[0];
-                    int score = int.Parse(scoreLine.Split(";")[1]);
-                    if (name == "REMOVE")
+                    string[] scores = File.ReadAllLines("scores.dat");
+                    foreach (string scoreLine in scores)
                     {
-                        Console.WriteLine("No High Scores.");
-                        break;
+                        string name = scoreLine.Split(";")[0];
+                        int score = int.Parse(scoreLine.Split(";")[1]);
+                        Console.WriteLine(name + " : " + score);
                     }
-                    else Console.WriteLine(name + ": " + score);
                 }
                 Console.WriteLine("Press any key to continue.");
                 Console.ReadKey();

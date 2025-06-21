@@ -3,3 +3,5 @@ A simple snake game I made in C# based off some older code I had done, so the co
 I have no intention on updating this repo, so it will become a public archive as soon as I have all the files laid out.
 
 Build with .NET 6 through VS2022, should be simple as that.
+
+This is an older version of [this repo](https://github.com/PENGUINCODER1/Snake-CSharp). This is here only for archival reasons.
